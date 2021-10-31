@@ -1,25 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Form from './components/Form';
+import  GuestList  from './components/GuestList';
+import styled from "styled-components";
 
-function App() {
+const Container = styled.main`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+interface Guests {
+  people:{
+    name: string;
+    surname: string;
+    age: number;
+    photoUrl?: string;
+    note?:string;
+  }[];
+}
+
+const App: React.FC = () =>{
+
+  const [guests,setGuests] = useState<Guests[]>([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Form/>
+      <GuestList/>
+    </Container>
   );
 }
 
