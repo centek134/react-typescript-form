@@ -1,5 +1,6 @@
-import React from "react";
+import React ,{useState} from "react";
 import styled from "styled-components";
+import { Guests as Props } from "../App";
 
 const FormContainer = styled.section`
   width: 50%;
@@ -44,18 +45,60 @@ const FormContainer = styled.section`
   }
 `;
 
-const Form: React.FC = () => {
+interface IProps{
+  people:Props["people"]
+  setPeople:React.Dispatch<React.SetStateAction<Props["people"]>>
+}
+
+const Form: React.FC<IProps> = ({people, setPeople}) => {
+
+  const [input, setInput] = useState({
+    name:"",
+    age:"",
+    photoUrl:"",
+    note:""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleClick = ():void => {
+    if( !input.name || !input.age || !input.photoUrl){
+      return;
+    };
+    setPeople([
+      ...people,
+      {
+        name: input.name,
+        age: parseInt(input.age),
+        photoUrl: input.photoUrl,
+        note: input.note
+        
+      }
+    ]);
+    setInput({
+      name:"",
+      age:"",
+      photoUrl:"",
+      note:""
+    })
+  };
+
   return (
     <FormContainer>
       <label htmlFor="name">Name:</label>
-      <input name="name" type="text" />
-      <label htmlFor="surname">Surname:</label>
-      <input name="surname" type="text" />
+      <input value={input.name} onChange={handleChange} name="name" type="text" />
       <label htmlFor="age">Age:</label>
-      <input name="age" type="number" />
-      <label htmlFor="img">ImgUrl:</label>
-      <input name="img" type="text" />
-      <button>Add Person</button>
+      <input value={input.age} onChange={handleChange} name="age" type="number" />
+      <label htmlFor="photoUrl">ImgUrl:</label>
+      <input value={input.photoUrl} onChange={handleChange} name="photoUrl" type="text" />
+      <label htmlFor="note">Note</label>
+      <input value={input.note} onChange={handleChange} name="note" type="text" />
+      <button onClick={handleClick}>Add Person</button>
     </FormContainer>
   );
 };
