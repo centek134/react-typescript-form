@@ -1,5 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
+import { Guests as Iprops } from '../App';
 
 const GuestsSection = styled.section`
     display: flex;
@@ -20,19 +21,31 @@ const GuestsSection = styled.section`
         }
     }
 `; 
- const GuestList: React.FC = () => {
-    return (
-        <GuestsSection>
-            <div>
-                <img alt='' src='https://upload.wikimedia.org/wikipedia/commons/8/82/Kobe_Bryant_2015.jpg'/>
+
+
+ const GuestList: React.FC<Iprops> = ({people}) => {
+
+    const renderList = (): JSX.Element[] => {
+        return people.map( person => {
+            return(
+                <GuestsSection>
                 <div>
-                <h2>Name</h2>
-                <h2>Surname</h2>
+                    <img alt='list-img' src={person.photoUrl}/>
+                    <div>
+                    <h2>{person.name}</h2>
+                    </div>
+                    <p>{person.age}</p>
+                    <p>{person.note}</p>
                 </div>
-                <p>Age</p>
-                <p>note</p>
-            </div>
-        </GuestsSection>
+            </GuestsSection>
+            );
+        });
+    };
+
+    return (
+        <React.Fragment>
+            {renderList()}
+        </React.Fragment>
     );
 };
 export default GuestList
