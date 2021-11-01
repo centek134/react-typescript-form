@@ -11,23 +11,29 @@ const Container = styled.main`
   align-items: center;
 `
 
-interface Guests {
+export interface Guests {
   people:{
     name: string;
-    surname: string;
     age: number;
-    photoUrl?: string;
+    photoUrl: string;
     note?:string;
-  }[];
+  }[]
 }
 
-const App: React.FC = () =>{
+const App = () => {
 
-  const [guests,setGuests] = useState<Guests[]>([]);
+  const [guests,setGuests] = useState<Guests["people"]>([
+    {
+      name:"James",
+      age:30,
+      photoUrl:"https://upload.wikimedia.org/wikipedia/commons/8/82/Kobe_Bryant_2015.jpg",
+      note:"He's very talented basketball player."
+    }
+  ]);
   return (
     <Container>
-      <Form/>
-      <GuestList/>
+      <Form people={guests} setPeople={setGuests}/>
+      <GuestList people={guests}/>
     </Container>
   );
 }
